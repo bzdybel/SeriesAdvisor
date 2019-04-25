@@ -1,0 +1,14 @@
+@import 'https://fonts.googleapis.com/css?family=Lato:400,700,900';
+
+:root {
+	--white: white;
+
+}
+
+* {
+	box-sizing: border-box;
+}
+
+body {
+	background: var(--white);
+}
