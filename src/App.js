@@ -4,7 +4,9 @@ import { BrowserRouter as Router, Route } from 'react-router-dom'
 import LoginForm from './components/LoginForm'
 import RegisterForm from './components/RegisterForm'
 
+
 class App extends React.Component {
+
 	render() {
 		return (
 			<main className="login-container">

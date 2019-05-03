@@ -24,7 +24,7 @@ code {
 
 .login-container__form {
   background-color: rgba(0, 0, 0, 0.85);
-  max-width: 20%;
+  max-width: 15%;
   margin: 10% auto;
 
   display: flex;
@@ -72,10 +72,10 @@ code {
 }
 
 .login-container__others {
+  margin-top: 10rem;
   display: flex;
   flex-direction: column;
   color: var(--grey);
-  padding: 8rem 5rem 2rem 5rem;
 }
 
 .login-container-others__register {
