@@ -26,7 +26,6 @@ code {
   background-color: rgba(0, 0, 0, 0.85);
   max-width: 15%;
   margin: 10% auto;
-
   display: flex;
   flex-direction: column;
   padding: 2rem 5rem
@@ -35,6 +34,7 @@ code {
 .login-container__form--title {
   color: var(--white);
   margin-bottom: 1rem;
+  white-space: nowrap;
 }
 
 .login-container__form--input {
@@ -58,6 +58,7 @@ code {
   border: 1px solid var(--red);
   font-size: 14px;
   color: var(--white);
+  text-align: center;
 }
 
 .login-container__form--button:hover {
@@ -81,4 +82,30 @@ code {
 .login-container-others__register {
   text-decoration: none;
   color: var(--white)
+}
+
+@media screen and (max-width: 800px) {
+  .login-container {
+    display: flex;
+    justify-content: center;
+  }
+
+  .login-container__form {
+    min-width: 80%;
+    margin: 0;
+  }
+
+  .login-container__form--button {
+    white-space: unset;
+  }
+}
+
+@media screen and (max-width: 250px) {
+  .login-container__form--title {
+    font-size: 16px;
+  }
+
+  .login-container__form-label {
+    font-size: 14px;
+  }
 }
