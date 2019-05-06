@@ -29,7 +29,7 @@ class LoginForm extends React.Component {
                 onSubmit={this.handleLoginFormSubmit}
             >
                 <h1 className="login-container-form__title">Zaloguj się</h1>
-                <label htmlFor="email" className="login-container__form-label">
+                <label htmlFor="email" className="login-container-form__label">
                     Email
                 </label>
                 <input

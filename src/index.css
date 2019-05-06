@@ -2,7 +2,15 @@
   --white: #fff;
   --red: #e50914;
   --grey: #b3b3b3;
+  --dark-grey: #444;
+  --light-grey: #555;
   --shadow-black: rgba(0, 0, 0, 0.85);
+  --orange: #e87c03;
+}
+
+html {
+  margin: 0;
+  padding: 0;
 }
 
 body {
@@ -26,7 +34,7 @@ code {
 .login-container__form {
   background-color: var(--shadow-black);
   max-width: 15%;
-  margin: 10% auto;
+  margin: 5% auto;
   display: flex;
   flex-direction: column;
   padding: 2rem 5rem
@@ -41,6 +49,24 @@ code {
 .login-container-form__input {
   padding: 1rem;
   margin-bottom: .7rem;
+  border-radius: 5px;
+  color: var(--white);
+  background-color: var(--dark-grey);
+  border: 1px solid var(--dark-grey);
+}
+
+.login-container-form__input::placeholder {
+  color: var(--white);
+  font-size: 14px;
+}
+
+.login-container-form__input:focus {
+  color: var(--white);
+  background: var(--light-grey);
+}
+
+.login-container-form__input:invalid:focus {
+  border-bottom: 2px solid var(--orange)
 }
 
 .login-container-form__label {
