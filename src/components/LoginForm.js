@@ -3,8 +3,8 @@ import NoAccountInformation from './NoAccountInformation';
 
 class LoginForm extends React.Component {
     state = {
-        email: undefined,
-        password: undefined,
+        email: '',
+        password: '',
     };
 
     handleEmailChange = e => {
@@ -28,7 +28,7 @@ class LoginForm extends React.Component {
                 className="login-container__form"
                 onSubmit={this.handleLoginFormSubmit}
             >
-                <h1 className="login-container__form--title">Zaloguj się</h1>
+                <h1 className="login-container-form__title">Zaloguj się</h1>
                 <label htmlFor="email" className="login-container__form-label">
                     Email
                 </label>
@@ -37,14 +37,14 @@ class LoginForm extends React.Component {
                     value={this.state.email}
                     id="email"
                     name="email"
-                    className="login-container__form--input"
-                    type="text"
+                    className="login-container-form__input"
+                    type="email"
                     placeholder="james.cook@gmail.com"
                     required
                 />
                 <label
                     htmlFor="password"
-                    className="login-container__form-label"
+                    className="login-container-form__label"
                 >
                     Hasło
                 </label>
@@ -53,12 +53,11 @@ class LoginForm extends React.Component {
                     onChange={this.handlePasswordChange}
                     value={this.state.password}
                     id="password"
-                    className="login-container__form--input"
+                    className="login-container-form__input"
                     type="password"
-                    placeholder="Password..."
                     required
                 />
-                <button type="submit" className="login-container__form--button">
+                <button type="submit" className="login-container-form__button">
                     Zaloguj się
                 </button>
                 <NoAccountInformation />

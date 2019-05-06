@@ -2,6 +2,7 @@
   --white: #fff;
   --red: #e50914;
   --grey: #b3b3b3;
+  --shadow-black: rgba(0, 0, 0, 0.85);
 }
 
 body {
@@ -23,7 +24,7 @@ code {
 
 
 .login-container__form {
-  background-color: rgba(0, 0, 0, 0.85);
+  background-color: var(--shadow-black);
   max-width: 15%;
   margin: 10% auto;
   display: flex;
@@ -31,24 +32,24 @@ code {
   padding: 2rem 5rem
 }
 
-.login-container__form--title {
+.login-container-form__title {
   color: var(--white);
   margin-bottom: 1rem;
   white-space: nowrap;
 }
 
-.login-container__form--input {
+.login-container-form__input {
   padding: 1rem;
   margin-bottom: .7rem;
 }
 
-.login-container__form-label {
+.login-container-form__label {
   color: var(--white);
   font-size: 20px;
   margin-bottom: .5rem
 }
 
-.login-container__form--button {
+.login-container-form__button {
   margin-top: 3rem;
   padding: 1rem;
   background: var(--red);
@@ -61,25 +62,18 @@ code {
   text-align: center;
 }
 
-.login-container__form--button:hover {
+.login-container-form__button:hover {
   cursor: pointer;
 }
 
-.login-container-__form-checkbox--wrapper {
-  display: flex;
-  align-items: center;
-  margin-top: .5rem;
-  color: var(--grey)
-}
-
-.login-container__others {
+.login-container__no-account {
   margin-top: 10rem;
   display: flex;
   flex-direction: column;
   color: var(--grey);
 }
 
-.login-container-others__register {
+.login-container__registration-link {
   text-decoration: none;
   color: var(--white)
 }
