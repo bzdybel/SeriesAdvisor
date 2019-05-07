@@ -12,7 +12,13 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "fix:other": "yarn prettier --write",
+    "fix:js": "yarn test:js --fix",
+    "fix": "yarn fix:js && yarn fix:other",
+    "prettier": "prettier \"**/*.{json,md,scss,yaml,yml}\"",
+    "test:other": "yarn prettier --list-different",
+    "test:js": "eslint --ignore-path .gitignore --ignore-path .prettierignore \"**/*.{js,jsx}\""
   },
   "eslintConfig": {
     "extends": "react-app"
@@ -28,5 +34,10 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "pretty-quick --staged"
+    }
   }
 }

@@ -9,7 +9,7 @@ class App extends React.Component {
 
 	render() {
 		return (
-			<main className="login-container">
+			<main className="login-section">
 				<Router>
 					<Route exact path="/" component={LoginForm} />
 					<Route path="/register" component={RegisterForm} />
