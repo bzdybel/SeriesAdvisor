@@ -97,10 +97,15 @@ code {
     color: var(--grey);
 }
 
+.login-section__no-account-description {
+    text-align: center;
+}
+
 .login-section__registration-link {
     margin-top: 0.5rem;
     text-decoration: none;
     color: var(--white);
+    text-align: center;
 }
 
 @media screen and (max-width: 800px) {
@@ -127,7 +132,16 @@ code {
     .login-section__label {
         font-size: 14px;
     }
+
     .login-section__input::placeholder {
+        font-size: 12px;
+    }
+
+    .login-section__no-account-description {
+        font-size: 12px;
+    }
+
+    .login-section__registration-link {
         font-size: 12px;
     }
 }
