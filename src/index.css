@@ -29,7 +29,7 @@ code {
         monospace;
 }
 
-.login-section__form {
+.login-register-section__form {
     background-color: var(--shadow-black);
     max-width: 15%;
     margin: 3rem auto;
@@ -38,13 +38,13 @@ code {
     padding: 2rem 5rem;
 }
 
-.login-section__title {
+.login-register-section__title {
     color: var(--white);
     margin-bottom: 1rem;
     white-space: nowrap;
 }
 
-.login-section__input {
+.login-register-section__input {
     padding: 1rem;
     margin-bottom: 0.7rem;
     border-radius: 5px;
@@ -53,27 +53,27 @@ code {
     border: 1px solid var(--dark-grey);
 }
 
-.login-section__input::placeholder {
+.login-register-section__input::placeholder {
     color: var(--white);
     font-size: 14px;
 }
 
-.login-section__input:focus {
+.login-register-section__input:focus {
     color: var(--white);
     background: var(--light-grey);
 }
 
-.login-section__input:invalid:focus {
+.login-register-section__input:invalid:focus {
     border-bottom: 2px solid var(--orange);
 }
 
-.login-section__label {
+.login-register-section__label {
     color: var(--white);
     font-size: 20px;
     margin-bottom: 0.5rem;
 }
 
-.login-section__button {
+.login-register-section__button {
     margin-top: 3rem;
     padding: 1rem;
     background: var(--red);
@@ -86,22 +86,22 @@ code {
     text-align: center;
 }
 
-.login-section__button:hover {
+.login-register-section__button:hover {
     cursor: pointer;
 }
 
-.login-section__no-account {
+.login-register-section__no-account {
     margin-top: 6rem;
     display: flex;
     flex-direction: column;
     color: var(--grey);
 }
 
-.login-section__no-account-description {
+.login-register-section__no-account-description {
     text-align: center;
 }
 
-.login-section__registration-link {
+.login-register-section__registration-link {
     margin-top: 0.5rem;
     text-decoration: none;
     color: var(--white);
@@ -109,39 +109,39 @@ code {
 }
 
 @media screen and (max-width: 800px) {
-    .login-section {
+    .login-register-section {
         display: flex;
         justify-content: center;
     }
 
-    .login-section__form {
+    .login-register-section__form {
         min-width: 80%;
         margin: 0;
     }
 
-    .login-section__button {
+    .login-register-section__button {
         white-space: unset;
     }
 }
 
 @media screen and (max-width: 250px) {
-    .login-section__title {
+    .login-register-section__title {
         font-size: 16px;
     }
 
-    .login-section__label {
+    .login-register-section__label {
         font-size: 14px;
     }
 
-    .login-section__input::placeholder {
+    .login-register-section__input::placeholder {
         font-size: 12px;
     }
 
-    .login-section__no-account-description {
+    .login-register-section__no-account-description {
         font-size: 12px;
     }
 
-    .login-section__registration-link {
+    .login-register-section__registration-link {
         font-size: 12px;
     }
 }
