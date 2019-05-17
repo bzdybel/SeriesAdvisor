@@ -6,6 +6,7 @@ const NoAccountInformation = () => (
         <small className="login-register-section__no-account-description">
             Nie masz konta w serwisie Series Advisor?
         </small>
+
         <Link to="register" className="login-register-section__registration-link">
             Zarejestruj się
         </Link>
