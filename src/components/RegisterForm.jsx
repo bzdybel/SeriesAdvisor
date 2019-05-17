@@ -1,4 +1,6 @@
 import React from 'react';
+import axios from 'axios';
+
 class RegisterForm extends React.Component {
     state = {
         email: '',
@@ -23,8 +25,8 @@ class RegisterForm extends React.Component {
     };
     handleloginFormSubmit = e => {
         e.preventDefault();
-        return axios
-            .post('/register', {
+        axios
+            .post('http://localhost:8080', {
                 email: this.state.email,
                 password: this.state.password,
                 passwordRepeat: this.state.passwordRepeat,
@@ -33,6 +35,7 @@ class RegisterForm extends React.Component {
                 console.log(res.data);
             });
     };
+
     render() {
         return (
             <form
