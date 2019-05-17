@@ -23,9 +23,15 @@ class RegisterForm extends React.Component {
     };
     handleloginFormSubmit = e => {
         e.preventDefault();
-        console.log(this.state.email);
-        console.log(this.state.password);
-        console.log(this.state.passwordRepeat);
+        return axios
+            .post('/register', {
+                email: this.state.email,
+                password: this.state.password,
+                passwordRepeat: this.state.passwordRepeat,
+            })
+            .then(res => {
+                console.log(res.data);
+            });
     };
     render() {
         return (
