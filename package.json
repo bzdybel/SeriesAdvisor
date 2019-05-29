@@ -6,6 +6,7 @@
     "axios": "^0.18.0",
     "bcrypt": "^3.0.6",
     "bcryptjs": "^2.4.3",
+    "cors": "^2.8.5",
     "mongoose": "^5.5.9",
     "nodemon": "^1.19.0",
     "passport": "^0.4.0",
@@ -17,7 +18,7 @@
   },
   "scripts": {
     "start": "react-scripts start",
-    "server-start": "nodemon server/server.js",
+    "server:start": "nodemon server/server.js",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
@@ -39,5 +40,6 @@
   },
   "devDependencies": {
     "prettier": "^1.17.0"
-  }
+  },
+  "proxy": "http://localhost:8080"
 }
