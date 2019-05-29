@@ -23,7 +23,7 @@ class RegisterForm extends React.Component {
             passwordRepeat: e.target.value,
         });
     };
-    handleloginFormSubmit = e => {
+    handleRegisterFormSubmit = e => {
         e.preventDefault();
         console.log('chuj1');
         axios
@@ -46,7 +46,7 @@ class RegisterForm extends React.Component {
         return (
             <form
                 className="login-register-section__form"
-                onSubmit={this.handleloginFormSubmit}
+                onSubmit={this.handleRegisterFormSubmit}
             >
                 <h1 className="login-register-section__title">
                     Zarejestruj się
@@ -92,7 +92,7 @@ class RegisterForm extends React.Component {
                 <input
                     onChange={this.handlePasswordRepeatChange}
                     vale={this.state.passwordRepeat}
-                    id="password"
+                    id="passwordRepeat"
                     className="login-register-section__input"
                     type="password"
                     required
