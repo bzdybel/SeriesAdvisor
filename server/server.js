@@ -3,9 +3,9 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const cors = require('cors');
 const path = require('path'); // ?
-
 const User = require('./registration-model');
-const user = new User();
+
+//const user = new User();
 
 mongoose.Promise = global.Promise;
 const PORT = 8080;
@@ -18,20 +18,14 @@ server.use(cors());
 
 const URL = 'mongodb://localhost:27017/series-advisor'; //?
 const db = mongoose.connect(URL, { useNewUrlParser: true });
-console.log('chuj1231');
 
-//?
 server.post('/register', (req, res) => {
-    console.log(req.email);
-    console.log(req.password);
-    console.log(req.passwordRepeat);
-    console.log('chuj4');
-
-    const user = {
-        email: req.email,
-        password: req.password,
-        passwordRepeat: req.passwordRepeat,
+    console.log(req.body);
+    const userBody = {
+        email: req.body.email,
+        password: bcrypt(req.body.password), //sprawdzic bcrypt
     };
+    const user = new User(userBody);
 
     return user
         .save()
@@ -41,8 +35,6 @@ server.post('/register', (req, res) => {
         })
 
         .catch(error => {
-            console.log('chuj5');
-
             console.log('Opss' + error);
             res.status(400).send(error.errors);
         });
