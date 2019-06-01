@@ -5,8 +5,6 @@ const cors = require('cors');
 const path = require('path'); // ?
 const User = require('./registration-model');
 
-//const user = new User();
-
 mongoose.Promise = global.Promise;
 const PORT = 8080;
 server = express();
@@ -14,7 +12,6 @@ server = express();
 server.use(bodyParser.urlencoded({ extended: true }));
 server.use(bodyParser.json());
 server.use(cors());
-//server.use(express.static('src')); //?
 
 const URL = 'mongodb://localhost:27017/series-advisor'; //?
 const db = mongoose.connect(URL, { useNewUrlParser: true });
@@ -31,7 +28,6 @@ server.post('/register', (req, res) => {
         .save()
         .then(newUser => {
             res.status(201).send(newUser);
-            console.log('elegancko szefie');
         })
 
         .catch(error => {
@@ -40,7 +36,6 @@ server.post('/register', (req, res) => {
         });
 });
 server.get('/register', (req, res) => {
-    console.log('Nie wiem co robic wiec napisze klasyczne XD');
 });
 
 server.listen(PORT, () => {
