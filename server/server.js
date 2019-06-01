@@ -13,7 +13,7 @@ server.use(bodyParser.urlencoded({ extended: true }));
 server.use(bodyParser.json());
 server.use(cors());
 
-const URL = 'mongodb://localhost:27017/series-advisor'; //?
+const URL = 'mongodb://localhost:27017/series-advisor';
 const db = mongoose.connect(URL, { useNewUrlParser: true });
 
 server.post('/register', (req, res) => {
