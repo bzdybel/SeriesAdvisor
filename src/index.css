@@ -101,14 +101,9 @@ code {
 .login-register-section__information {
     font-size: 18px;
     text-align: center;
-}
-
-.login-register-section__information--error {
+    display: none;
     color: var(--red);
-}
 
-.login-register-section__information--registered {
-    color: var(--green);
 }
 
 .login-register-section__no-account-description {

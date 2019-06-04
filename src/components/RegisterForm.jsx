@@ -2,7 +2,6 @@ import React from 'react';
 import axios from 'axios';
 
 let error = '';
-let registered = '';
 
 class RegisterForm extends React.Component {
     state = {
@@ -12,23 +11,16 @@ class RegisterForm extends React.Component {
     };
 
     handleEmailChange = e => {
-        document.getElementById('registered').innerText = '';
-        document.getElementById('error').innerText = '';
-
         this.setState({
             email: e.target.value,
         });
     };
     handlePasswordChange = e => {
-        document.getElementById('registered').innerText = '';
-        document.getElementById('error').innerText = '';
         this.setState({
             password: e.target.value,
         });
     };
     handlePasswordRepeatChange = e => {
-        document.getElementById('registered').innerText = '';
-        document.getElementById('error').innerText = '';
         this.setState({
             passwordRepeat: e.target.value,
         });
@@ -45,11 +37,10 @@ class RegisterForm extends React.Component {
                 .then(res => {
                     console.log(res.data);
                 });
-            registered = 'Pomyślnie zarejestrowano!';
-            document.getElementById('registered').innerText = registered;
         } else {
             error = 'Wprowadziłeś błędne hasło!';
-            document.getElementById('error').innerText = error;
+            document.getElementById('information').style.display = 'block';
+            document.getElementById('information').innerText = error;
         }
     };
 
@@ -106,13 +97,9 @@ class RegisterForm extends React.Component {
                     type="password"
                     required
                 />
-                <h2
-                    className="login-register-section__information login-register-section__information--error"
-                    id="error"
-                />
-                <h2
-                    className="login-register-section__information login-register-section__information--registered"
-                    id="registered"
+                <p
+                    className="login-register-section__information "
+                    id="information"
                 />
 
                 <button
