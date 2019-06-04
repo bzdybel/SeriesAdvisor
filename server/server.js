@@ -2,8 +2,9 @@ const mongoose = require('mongoose');
 const express = require('express');
 const bodyParser = require('body-parser');
 const cors = require('cors');
-const path = require('path'); // ?
 const User = require('./registration-model');
+const bcrypt = require('bcrypt');
+const saltRounds = 10;
 
 mongoose.Promise = global.Promise;
 const PORT = 8080;
@@ -17,11 +18,14 @@ const URL = 'mongodb://localhost:27017/series-advisor';
 const db = mongoose.connect(URL, { useNewUrlParser: true });
 
 server.post('/register', (req, res) => {
-    console.log(req.body);
+
+    let hash = bcrypt.hashSync(req.body.password, 10);
+
     const userBody = {
         email: req.body.email,
-        password: bcrypt(req.body.password), //sprawdzic bcrypt
+        password: hash,
     };
+
     const user = new User(userBody);
 
     return user
@@ -35,8 +39,7 @@ server.post('/register', (req, res) => {
             res.status(400).send(error.errors);
         });
 });
-server.get('/register', (req, res) => {
-});
+server.get('/register', (req, res) => {});
 
 server.listen(PORT, () => {
     console.log('Server is listening on ' + PORT + ' port');

@@ -6,6 +6,7 @@
     --light-grey: #555;
     --shadow-black: rgba(0, 0, 0, 0.9);
     --orange: #e87c03;
+    --green: #2ECC40;
 }
 
 html {
@@ -95,6 +96,19 @@ code {
     display: flex;
     flex-direction: column;
     color: var(--grey);
+}
+
+.login-register-section__information {
+    font-size: 18px;
+    text-align: center;
+}
+
+.login-register-section__information--error {
+    color: var(--red);
+}
+
+.login-register-section__information--registered {
+    color: var(--green);
 }
 
 .login-register-section__no-account-description {
