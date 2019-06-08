@@ -6,6 +6,7 @@
     --light-grey: #555;
     --shadow-black: rgba(0, 0, 0, 0.9);
     --orange: #e87c03;
+    ;
     --green: #2ECC40;
 }
 
@@ -115,6 +116,12 @@ code {
     text-decoration: none;
     color: var(--white);
     text-align: center;
+}
+
+.login-register-section__error {
+    text-align: center;
+    font-size: 16px;
+    color: var(--orange);
 }
 
 @media screen and (max-width: 800px) {

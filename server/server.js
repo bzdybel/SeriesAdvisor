@@ -18,7 +18,6 @@ const URL = 'mongodb://localhost:27017/series-advisor';
 const db = mongoose.connect(URL, { useNewUrlParser: true });
 
 server.post('/register', (req, res) => {
-
     let hash = bcrypt.hashSync(req.body.password, 10);
 
     const userBody = {
