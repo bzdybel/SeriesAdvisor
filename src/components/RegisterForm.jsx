@@ -9,7 +9,7 @@ class RegisterForm extends React.Component {
         password: '',
         passwordRepeat: '',
         errorMessage: '',
-        isSignUp: false,
+        hasUserSignUp: false,
     };
 
     handleEmailChange = e => {
@@ -28,15 +28,17 @@ class RegisterForm extends React.Component {
         });
     };
 
-    handleErrorMessage = e => {
+    handleErrorMessage = errorMessage => {
         this.setState({
-            errorMessage: e,
+            errorMessage: errorMessage,
         });
     };
 
     handleRegisterFormSubmit = e => {
         e.preventDefault();
-        if (this.state.password === this.state.passwordRepeat) {
+        if (this.state.password !== this.state.passwordRepeat) {
+            this.handleErrorMessage('Wprowadziłeś błędne hasło!');
+        } else {
             axios
                 .post('http://localhost:8080/register', {
                     email: this.state.email,
@@ -44,29 +46,24 @@ class RegisterForm extends React.Component {
                     passwordRepeat: this.state.passwordRepeat,
                 })
                 .then(response => {
-                    if (response.status >= 200 && response.status < 300) {
-                        this.setState({ isSignUp: true });
+                    if (response.status === 201) {
+                        this.setState({ hasUserSignUp: true });
                     }
                 })
                 .catch(err => {
-                    if (
-                        err.response.status >= 400 &&
-                        err.response.status < 500
-                    ) {
+                    if (err.response.status === 400) {
                         this.handleErrorMessage(
                             'Wprowadziłeś niepoprawne dane'
                         );
-                    } else if (err.response.status > 500) {
+                    } else if (err.response.status === 500) {
                         this.handleErrorMessage('Błąd serwera, przepraszamy');
                     }
                 });
-        } else {
-            this.handleErrorMessage('Wprowadziłeś błędne hasło!');
         }
     };
 
     render() {
-        if (this.state.isSignUp === true) {
+        if (this.state.hasUserSignUp === true) {
             return <Redirect to="/" />;
         }
         return (
@@ -105,6 +102,7 @@ class RegisterForm extends React.Component {
                     id="password"
                     className="login-register-section__input"
                     type="password"
+                    minLength="6"
                     required
                 />
                 <label
@@ -119,6 +117,7 @@ class RegisterForm extends React.Component {
                     id="passwordRepeat"
                     className="login-register-section__input"
                     type="password"
+                    minLength="6"
                     required
                 />
                 <ErrorMessage name={this.state.errorMessage} />
