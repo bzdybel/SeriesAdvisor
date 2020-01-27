@@ -16,15 +16,16 @@ const Home = () => {
         movies.map(movie => {
             movie.isSelected = false;
         });
+        console.log(movies);
         setMovies(movies);
     };
     const setIsMovieSelected = movie => {
-        let moviesCopy = movies;
-        moviesCopy.map(movieElement =>
+        const moviesCopy = movies.map(movieElement =>
             movieElement.id === movie.id
-                ? (movieElement.isSelected = true)
-                : null
+                ? { ...movieElement, isSelected: true }
+                : movie
         );
+        console.log(moviesCopy);
         setMovies(moviesCopy);
     };
     useEffect(() => {
@@ -86,8 +87,7 @@ const Home = () => {
                                     className={`home-lower-section-movie-container__element home-lower-section-movie-container__element--${index +
                                         1} ${
                                         movie.isSelected
-                                            ? `home-lower-section-movie-container-element__${index +
-                                                  1}--choosen`
+                                            ? `home-lower-section-movie-container__element--choosen`
                                             : null
                                     } `}
                                     key={movie.id}
