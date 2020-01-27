@@ -4,33 +4,29 @@ import data from '../filmweb_data.json';
 const pageTitle = 'Movie Advisor';
 const moviePosters = 'https://image.tmdb.org/t/p/w500';
 
+const initialMovies = data.results.map(movie => ({
+    ...movie,
+    isSelected: false,
+}));
+
 const Home = () => {
     const [showButton, setShowButton] = useState(false);
-    const [movies, setMovies] = useState([]);
+    const [movies, setMovies] = useState(initialMovies);
     const movieContainerRef = useRef(null);
 
     const scrollToRef = ref =>
         window.scrollTo(0, ref.current.offsetTop + ref.current.clientHeight);
 
-    const prepareData = movies => {
-        movies.map(movie => {
-            movie.isSelected = false;
-        });
-        console.log(movies);
-        setMovies(movies);
-    };
-    const setIsMovieSelected = movie => {
+    const setIsMovieSelected = selectedMovie => {
         const moviesCopy = movies.map(movieElement =>
-            movieElement.id === movie.id
+            movieElement.id === selectedMovie.id
                 ? { ...movieElement, isSelected: true }
-                : movie
+                : movieElement
         );
-        console.log(moviesCopy);
         setMovies(moviesCopy);
     };
     useEffect(() => {
         // document.body.style.overflow = 'hidden';
-        prepareData(data.results);
         setTimeout(() => {
             setShowButton(true);
         }, 1500);
@@ -99,7 +95,9 @@ const Home = () => {
                                             width: '100%',
                                             // objectFit: 'cover',
                                         }}
-                                        src={`${moviePosters}${movie.poster_path}`}
+                                        src={`${moviePosters}${
+                                            movie.poster_path
+                                        }`}
                                         alt={movie.original_title}
                                     />
                                 </div>
