@@ -11,17 +11,19 @@
 html {
     margin: 0;
     padding: 0;
+    scroll-behavior: smooth;
 }
 
 body {
     margin: 0;
+    background-color: var(--shadow-black);
     padding: 0;
     font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto',
         'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans',
         'Helvetica Neue', sans-serif;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
-    background-image: url(https://assets.nflxext.com/ffe/siteui/vlv3/02dd3f21-2c34-4989-a48b-827dd9edc446/6fd9c935-5097-4045-9e29-4e1028a6c1fb/PL-pl-20190422-popsignuptwoweeks-perspective_alpha_website_large.jpg);
+    /* background-image: url(https://assets.nflxext.com/ffe/siteui/vlv3/02dd3f21-2c34-4989-a48b-827dd9edc446/6fd9c935-5097-4045-9e29-4e1028a6c1fb/PL-pl-20190422-popsignuptwoweeks-perspective_alpha_website_large.jpg); */
 }
 
 code {
@@ -30,7 +32,6 @@ code {
 }
 
 .login-register-section__form {
-    background-color: var(--shadow-black);
     max-width: 15%;
     margin: 3rem auto;
     display: flex;
@@ -107,7 +108,108 @@ code {
     color: var(--white);
     text-align: center;
 }
+.home__wrapper {
+    color: var(--white);
+    display: flex;
+    flex-direction: column;
+    /* padding-top: 10%; */
+    height: -webkit-fill-available;
+    width: 100%;
+    background-color: var(--shadow-black);
+    font-size: 48px;
+}
+.home-wrapper-upper-section__animation {
+    padding:5rem;
+    text-align: center;
+    letter-spacing: 0.1rem;
+}
+.home-wrapper-upper-section-button__wrapper{
+    display: flex;
+    justify-content: center;
+}
+.home-button {
+    margin: 3rem auto;
+    padding: 1rem;
+    background: var(--red);
+    white-space: nowrap;
+    border-radius: 5px;
+    font-weight: bold;
+    border: 1px solid var(--red);
+    font-size: 14px;
+    color: var(--white);
+    text-align: center;
+}
+.home-button:hover {
+    cursor: pointer;
+}
+.home-lower-section-wrapper{
+    margin: 0 auto;
+    border-radius: 5%;
+    background:rgba(80, 0, 0, 0.5)
+    /* opacity: .1; */
+}
+.home-lower-section-movie-container {
+    display: grid;
+    grid-template-columns: repeat(5, 18rem);
+    grid-template-rows: repeat(3, 18rem);
+    grid-column-gap: 10px;
+    grid-row-gap: 10px;
+    padding: 5rem ;   
+    justify-content: center;
+}
+.home-lower-section-movie-container__element{
+    display: flex;
+    /* background-color: var(--shadow-black); */
+    /* border: 1px solid black; */
+    transition: box-shadow 0.3s ease-in-out;
+    transition: all .2s ease-in-out;
+    font-size: 28px;
+    color: var(--orange);
+    letter-spacing: .1rem;
+    align-items: flex-end;
+    /* text-shadow: -1px 0 var(--shadow-black), 0 1px var(--shadow-black), 1px 0 var(--shadow-black), 0 -1px var(--shadow-black); */
+    padding: 0 0 .5rem .5rem;
+    background-size: cover;
+    width: 100%;
+    height: 100%
+}
+.home-lower-section-movie-container__element:hover{
+    box-shadow: 1px 1px 19px 7px var(--red);
+    cursor: pointer;
+    transform: scale(1.01);
+}
 
+.home-lower-section-movie-container__element--1 { grid-area: 1 / 1 / 2 / 2; }
+.home-lower-section-movie-container__element--2 { grid-area: 1 / 2 / 2 / 3; }
+.home-lower-section-movie-container__element--3 { grid-area: 1 / 3 / 2 / 4; }
+.home-lower-section-movie-container__element--4 { grid-area: 1 / 4 / 2 / 5; }
+.home-lower-section-movie-container__element--5 { grid-area: 1 / 5 / 2 / 6; }
+.home-lower-section-movie-container__element--6 { grid-area: 2 / 1 / 3 / 2; }
+.home-lower-section-movie-container__element--7 { grid-area: 2 / 2 / 3 / 3; }
+.home-lower-section-movie-container__element--8 { grid-area: 2 / 3 / 3 / 4; }
+.home-lower-section-movie-container__element--9 { grid-area: 2 / 4 / 3 / 5; }
+.home-lower-section-movie-container__element--10 { grid-area: 2 / 5 / 3 / 6; }
+.home-lower-section-movie-container__element--11 { grid-area: 3 / 1 / 4 / 2; }
+.home-lower-section-movie-container__element--12 { grid-area: 3 / 2 / 4 / 3; }
+.home-lower-section-movie-container__element--13 { grid-area: 3 / 3 / 4 / 4; }
+.home-lower-section-movie-container__element--14 { grid-area: 3 / 4 / 4 / 5; }
+.home-lower-section-movie-container__element--15 { grid-area: 3 / 5 / 4 / 6; }
+
+.home-lower-section-movie-container-element__1--choosen{
+    background-color: rgb(0, 136, 255);
+}
+.home-lower-section-movie-container-element__2--choosen{
+    background-color: aliceblue;
+}
+.home-lower-section-movie-container-element__3--choosen{
+    background-color: aliceblue;
+}
+.home-lower-section-movie-container-element__4--choosen{
+    background-color: aliceblue;
+}
+.home-lower-section-movie-container-element__5--choosen{
+    background-color: aliceblue;
+}
 @media screen and (max-width: 800px) {
     .login-register-section {
         display: flex;
