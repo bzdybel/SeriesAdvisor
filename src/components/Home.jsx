@@ -1,18 +1,26 @@
 import React, { useState, useEffect, useRef, Fragment } from 'react';
 import Typical from 'react-typical';
-import data from '../filmweb_data.json';
+import data from '../filmweb_data_latest.json';
+import { IoIosArrowDropleft, IoIosArrowDropright } from 'react-icons/io';
+import { IconContext } from 'react-icons';
+
 const pageTitle = 'Movie Advisor';
+const API_URL = 'https://api.themoviedb.org/3/movie/top_rated';
+const API_KEY = '5208414409036588923403a5490e9c1a';
 const moviePosters = 'https://image.tmdb.org/t/p/w500';
+const totalPages = data.total_pages;
 
 const movieList = data.results.map(movie => ({
     ...movie,
     isSelected: false,
 }));
 const initialMovies = movieList.filter((element, index) => index < 15);
+
 const Home = () => {
     const [showButton, setShowButton] = useState(false);
     const [movies, setMovies] = useState(initialMovies);
     const [selectedMoviesIds, setSelectedMoviesIds] = useState([]);
+    const [currentPage, setCurrentPage] = useState(1);
 
     const movieContainerRef = useRef(null);
 
@@ -45,8 +53,20 @@ const Home = () => {
             setMovies(updatedMovies);
         }, 500);
     };
+    const getNextMovies = page => {
+        setCurrentPage(page);
+        fetch(`${API_URL}?api_key=${API_KEY}&language=en-US&page=${page}`)
+            .then(res => res.json())
+            .then(data => {
+                data.results.map(movie => ({
+                    ...movie,
+                    isSelected: false,
+                }));
+                setMovies(data.results);
+            });
+    };
     useEffect(() => {
-        // document.body.style.overflow = 'hidden';
+        document.body.style.overflow = 'hidden';
         setTimeout(() => {
             setShowButton(true);
         }, 10000);
@@ -93,35 +113,71 @@ const Home = () => {
                     className="home-lower-section-wrapper"
                     ref={movieContainerRef}
                 >
-                    <div
-                        className="home-lower-section-movie-container"
-                        ref={movieContainerRef}
-                    >
-                        {movies.map((movie, index) =>
-                            index < 15 ? (
-                                <div
-                                    className={`home-lower-section-movie-container__element home-lower-section-movie-container__element--${index +
-                                        1} ${
-                                        movie.isSelected
-                                            ? `home-lower-section-movie-container__element--choosen`
-                                            : null
-                                    } `}
-                                    key={movie.id}
-                                    onClick={() => setIsMovieSelected(movie)}
-                                >
-                                    <img
-                                        style={{
-                                            height: '100%',
-                                            width: '100%',
-                                        }}
-                                        src={`${moviePosters}${movie.poster_path}`}
-                                        alt={movie.original_title}
-                                    />
-                                </div>
-                            ) : null
-                        )}
-                    </div>
+                    <div className="home-lower-section-wrapper__movies-with-arrows">
+                        <div className="home-lower-section-movie-container__arrow">
+                            <IconContext.Provider
+                                value={{
+                                    className:
+                                        'home-lower-section-movie-container__arrow-icon home-lower-section-movie-container__arrow--previous',
+                                }}
+                            >
+                                <IoIosArrowDropleft
+                                    onClick={() =>
+                                        getNextMovies(
+                                            currentPage - 1 <= 0
+                                                ? totalPages
+                                                : currentPage - 1
+                                        )
+                                    }
+                                />
+                            </IconContext.Provider>
+                        </div>
 
+                        <div
+                            className="home-lower-section-movie-container"
+                            ref={movieContainerRef}
+                        >
+                            {movies.map((movie, index) =>
+                                index < 15 ? (
+                                    <div
+                                        key={movie.id}
+                                        onClick={() =>
+                                            setIsMovieSelected(movie)
+                                        }
+                                    >
+                                        <img
+                                            className={`home-lower-section-movie-container__element home-lower-section-movie-container__element--${index +
+                                                1} ${
+                                                movie.isSelected
+                                                    ? `home-lower-section-movie-container__element--choosen`
+                                                    : null
+                                            } `}
+                                            style={{
+                                                height: '100%',
+                                                width: '100%',
+                                            }}
+                                            src={`${moviePosters}${movie.poster_path}`}
+                                            alt={''}
+                                        />
+                                    </div>
+                                ) : null
+                            )}
+                        </div>
+                        <div className="home-lower-section-movie-container__arrow">
+                            <IconContext.Provider
+                                value={{
+                                    className:
+                                        'home-lower-section-movie-container__arrow-icon home-lower-section-movie-container__arrow--next',
+                                }}
+                            >
+                                <IoIosArrowDropright
+                                    onClick={() =>
+                                        getNextMovies(currentPage + 1)
+                                    }
+                                />
+                            </IconContext.Provider>
+                        </div>
+                    </div>
                     <div className="home-lower-section-button__wrapper">
                         {selectedMoviesIds.length > 3 ? (
                             <button
