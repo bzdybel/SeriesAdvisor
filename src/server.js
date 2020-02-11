@@ -1,28 +1,29 @@
-// All external dependencies should be declared on top of the file
-// for the sake of readability
-// const express = require('express');
-const request = require('request');
-const cheerio = require('cheerio')
+const express = require('express');
+const cors = require('cors');
+const bodyParser = require('body-parser');
+const app = express();
+const mongoose = require('mongoose');
+const port = process.env.PORT || 5000;
 
+app.use(bodyParser.json());
+app.use(cors());
+app.use(
+    bodyParser.urlencoded({
+        extended: false,
+    })
+);
 
-request('https://upflix.pl/netflix/serial/', (error, response, html)=>{
-    if(!error && response.statusCode === 200)
-    console.log(html)
-})
-// const app = express();
+const mongoURI = 'mongodb://localhost:27017/movieadvisor';
 
-    // scrapeIt('https://www.filmweb.pl', {
-    //     title: '.header h1',
-    //     desc: '.header h2',
-    //     avatar: {
-    //         selector: '.header img',
-    //         attr: 'src',
-    //     },
-        
-    // }).then(({ data, response }) => {
-    //     //save data to file
-    //     response.status(200).send(data)
-    // })    
+mongoose
+    .connect(mongoURI, { useNewUrlParser: true, useUnifiedTopology: true })
+    .then(() => console.log('MongoDB Connected'))
+    .catch(err => console.log(err));
 
+const Users = require('./routes/User');
+// console.log(Users);
+app.use('/users', Users);
 
-// app.listen(PORT, () => console.log(`Server is listening on ${PORT}...`));
+app.listen(port, function() {
+    console.log('Server is running on port: ' + port);
+});

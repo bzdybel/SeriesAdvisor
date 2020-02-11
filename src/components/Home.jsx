@@ -1,13 +1,14 @@
 import React, { useState, useEffect, useRef, Fragment } from 'react';
-import Typical from 'react-typical';
 import data from '../filmweb_data_latest.json';
-import { IoIosArrowDropleft, IoIosArrowDropright } from 'react-icons/io';
-import { IconContext } from 'react-icons';
+import { useAsync } from 'react-async';
+import { fetchSimilarMovies, fetchNextMovies } from '../api';
+import { Arrow } from './Arrow.jsx';
+import { ResultMovie } from './ResultMovie';
+import { MainMoviesContainer } from './MainMoviesContainer';
+import { WelcomeSection } from './WelcomeSection';
+import Tooltip from '@material-ui/core/Tooltip';
+import { IoIosClose } from 'react-icons/io';
 
-const pageTitle = 'Movie Advisor';
-const API_URL = 'https://api.themoviedb.org/3/movie/top_rated';
-const API_KEY = '5208414409036588923403a5490e9c1a';
-const moviePosters = 'https://image.tmdb.org/t/p/w500';
 const totalPages = data.total_pages;
 
 const movieList = data.results.map(movie => ({
@@ -17,22 +18,54 @@ const movieList = data.results.map(movie => ({
 const initialMovies = movieList.filter((element, index) => index < 15);
 
 const Home = () => {
-    const [showButton, setShowButton] = useState(false);
     const [movies, setMovies] = useState(initialMovies);
+    const [nextMovies, setNextMovies] = useState([]);
     const [selectedMoviesIds, setSelectedMoviesIds] = useState([]);
-    const [currentPage, setCurrentPage] = useState(1);
+    const [allSimilarsMovies, setAllSimilarsMovies] = useState([]);
+
+    const fetchSimilarMoviesRequest = useAsync({
+        deferFn: fetchSimilarMovies,
+        onResolve: data => {
+            setAllSimilarsMovies(allSimilarsMovies => [
+                ...allSimilarsMovies,
+                ...data.results,
+            ]);
+        },
+    });
+    const fetchNextMoviesToShowRequest = useAsync({
+        deferFn: fetchNextMovies,
+        onResolve: data => {
+            const mappedData = data.results.map(movie => ({
+                ...movie,
+                isSelected: false,
+            }));
+            setMovies(mappedData);
+        },
+    });
+    const fetchNextMoviesRequest = useAsync({
+        deferFn: fetchNextMovies,
+        onResolve: data => {
+            setNextMovies(data.results);
+        },
+    });
+
+    const [showButton, setShowButton] = useState(false);
+    const [currentPage, setCurrentPage] = useState(2);
+    const [movieToShow, setMovieToShow] = useState(null);
 
     const movieContainerRef = useRef(null);
 
-    const scrollToRef = ref =>
-        window.scrollTo(0, ref.current.offsetTop + ref.current.clientHeight);
+    const scrollToRef = ref => {
+        window.scrollTo(0, ref.current.offsetTop);
+    };
 
     const setIsMovieSelected = selectedMovie => {
+        fetchSimilarMoviesRequest.run(selectedMovie.id);
+
         setSelectedMoviesIds(selectedMoviesIds => [
             ...selectedMoviesIds,
             selectedMovie.id,
         ]);
-
         const moviesCopy = movies.map(movieElement =>
             movieElement.id === selectedMovie.id
                 ? { ...movieElement, isSelected: true }
@@ -44,150 +77,163 @@ const Home = () => {
                 movieElement => movieElement.id === selectedMovie.id
             );
             const updatedMovies = [...movies];
+            if (nextMovies.length === 1) {
+                fetchNextMoviesRequest.run(currentPage + 1);
+                setCurrentPage(currentPage + 1);
+            }
             updatedMovies.splice(selectedMovieIndex, 1);
             updatedMovies.splice(
                 selectedMovieIndex,
                 0,
-                movieList[selectedMoviesIds.length + 15]
+                nextMovies[nextMovies.length - 1]
             );
+            const copyNextMovies = [...nextMovies];
+            copyNextMovies.splice(nextMovies.length - 1, 1);
+            setNextMovies(copyNextMovies);
             setMovies(updatedMovies);
         }, 500);
     };
     const getNextMovies = page => {
         setCurrentPage(page);
-        fetch(`${API_URL}?api_key=${API_KEY}&language=en-US&page=${page}`)
-            .then(res => res.json())
-            .then(data => {
-                data.results.map(movie => ({
-                    ...movie,
-                    isSelected: false,
-                }));
-                setMovies(data.results);
-            });
+        fetchNextMoviesToShowRequest.run(page);
+    };
+    const findCorrectMovie = selectedMovies => {
+        if (allSimilarsMovies.length === 1) {
+            setMovieToShow(null);
+            setSelectedMoviesIds([]);
+        }
+        const index =
+            Math.floor(Math.random() * (0 - allSimilarsMovies.length + 1)) +
+            allSimilarsMovies.length;
+        setMovieToShow(allSimilarsMovies[index]);
+        const allSimilarsMoviesCopy = [...allSimilarsMovies];
+        allSimilarsMoviesCopy.splice(index, 1);
+        setAllSimilarsMovies(allSimilarsMoviesCopy);
     };
     useEffect(() => {
-        document.body.style.overflow = 'hidden';
+        setCurrentPage(currentPage);
+        fetchNextMoviesRequest.run(currentPage);
+        // document.body.style.overflow = 'hidden';
         setTimeout(() => {
             setShowButton(true);
         }, 10000);
     }, []);
-
     return (
         <Fragment>
             <div className="home__wrapper">
-                <div className="home_wrapper-upper-section">
-                    <div className="home-wrapper-upper-section__animation">
-                        {!showButton ? (
-                            <Typical
-                                steps={[
-                                    `Welcome on ${pageTitle} site  🤝`,
-                                    1000,
-                                    `Before we find movie for you let's choose couple of your favourite movies 📽`,
-                                    10000,
-                                ]}
-                                loop={1}
-                                wrapper="div"
-                            />
-                        ) : (
-                            <div>
-                                Before we find movie for you let's choose couple
-                                of your favourite movies 📽
-                            </div>
-                        )}
-                    </div>
-                    <div className="home-wrapper-upper-section-button__wrapper">
-                        {showButton ? (
-                            <button
-                                type="submit"
-                                className="home-button"
-                                onClick={() => {
-                                    scrollToRef(movieContainerRef);
-                                }}
-                            >
-                                I'm ready!
-                            </button>
-                        ) : null}
-                    </div>
-                </div>
+                <WelcomeSection
+                    showButton={showButton}
+                    onButtonClick={scrollToRef}
+                    movieContainerRef={movieContainerRef}
+                    hideContent={movieToShow !== null}
+                />
                 <div
                     className="home-lower-section-wrapper"
-                    ref={movieContainerRef}
+                    style={{
+                        margin:
+                            selectedMoviesIds.length > 2 ? '70% 0 1% 0' : null,
+                    }}
                 >
-                    <div className="home-lower-section-wrapper__movies-with-arrows">
-                        <div className="home-lower-section-movie-container__arrow">
-                            <IconContext.Provider
-                                value={{
-                                    className:
-                                        'home-lower-section-movie-container__arrow-icon home-lower-section-movie-container__arrow--previous',
-                                }}
+                    <div
+                        className="home-lower-section-movie-container-all-elements-wrapper"
+                        style={{
+                            background: 'rgba(50, 0, 0, 0.5)',
+                            maxWidth: '50%',
+                            display: 'flex',
+                            flexDirection: 'column',
+                        }}
+                    >
+                        {movieToShow ? (
+                            <Tooltip
+                                title="Back to movies"
+                                placement="top-start"
+                                arrow
                             >
-                                <IoIosArrowDropleft
-                                    onClick={() =>
-                                        getNextMovies(
-                                            currentPage - 1 <= 0
-                                                ? totalPages
-                                                : currentPage - 1
-                                        )
-                                    }
-                                />
-                            </IconContext.Provider>
+                                <div className="home-lower-section-movie-container__close">
+                                    <IoIosClose
+                                        onClick={() => {
+                                            setMovieToShow(null);
+                                            setSelectedMoviesIds([]);
+                                        }}
+                                    />
+                                </div>
+                            </Tooltip>
+                        ) : null}
+                        <div className="home-lower-section-wrapper__movies-with-arrows">
+                            <Arrow
+                                direction="previous"
+                                onArrowClick={() =>
+                                    getNextMovies(
+                                        currentPage - 1 <= 0
+                                            ? totalPages
+                                            : currentPage - 1
+                                    )
+                                }
+                                hideContent={movieToShow}
+                            />
+                            <div className="div">
+                                <div
+                                    className="home-lower-section-movie-container"
+                                    style={{
+                                        display: movieToShow ? 'flex' : 'grid',
+                                        padding: movieToShow
+                                            ? '0 3rem'
+                                            : '3rem',
+                                    }}
+                                >
+                                    {!movieToShow ? (
+                                        <MainMoviesContainer
+                                            movies={movies}
+                                            onMovieClick={setIsMovieSelected}
+                                            hideContent={movieToShow}
+                                        />
+                                    ) : (
+                                        <ResultMovie
+                                            resultMovie={movieToShow}
+                                        />
+                                    )}
+                                </div>
+                            </div>
+                            <Arrow
+                                direction={'next'}
+                                onArrowClick={() =>
+                                    getNextMovies(currentPage + 1)
+                                }
+                                hideContent={movieToShow}
+                            />
                         </div>
-
                         <div
-                            className="home-lower-section-movie-container"
+                            className="home-lower-section-button__wrapper"
                             ref={movieContainerRef}
                         >
-                            {movies.map((movie, index) =>
-                                index < 15 ? (
-                                    <div
-                                        key={movie.id}
-                                        onClick={() =>
-                                            setIsMovieSelected(movie)
-                                        }
+                            {selectedMoviesIds.length > 2 && !movieToShow ? (
+                                <Tooltip
+                                    title="The more choices, the more suggestions"
+                                    placement="top-start"
+                                    arrow
+                                >
+                                    <button
+                                        type="submit"
+                                        className="home-button"
+                                        onClick={() => {
+                                            findCorrectMovie(selectedMoviesIds);
+                                        }}
                                     >
-                                        <img
-                                            className={`home-lower-section-movie-container__element home-lower-section-movie-container__element--${index +
-                                                1} ${
-                                                movie.isSelected
-                                                    ? `home-lower-section-movie-container__element--choosen`
-                                                    : null
-                                            } `}
-                                            style={{
-                                                height: '100%',
-                                                width: '100%',
-                                            }}
-                                            src={`${moviePosters}${movie.poster_path}`}
-                                            alt={''}
-                                        />
-                                    </div>
-                                ) : null
-                            )}
+                                        Ok, we can go next
+                                    </button>
+                                </Tooltip>
+                            ) : selectedMoviesIds.length > 2 ? (
+                                <button
+                                    type="submit"
+                                    className="home-button"
+                                    onClick={() => {
+                                        findCorrectMovie(selectedMoviesIds);
+                                    }}
+                                >
+                                    Show me next movie
+                                </button>
+                            ) : null}
                         </div>
-                        <div className="home-lower-section-movie-container__arrow">
-                            <IconContext.Provider
-                                value={{
-                                    className:
-                                        'home-lower-section-movie-container__arrow-icon home-lower-section-movie-container__arrow--next',
-                                }}
-                            >
-                                <IoIosArrowDropright
-                                    onClick={() =>
-                                        getNextMovies(currentPage + 1)
-                                    }
-                                />
-                            </IconContext.Provider>
-                        </div>
-                    </div>
-                    <div className="home-lower-section-button__wrapper">
-                        {selectedMoviesIds.length > 3 ? (
-                            <button
-                                type="submit"
-                                className="home-button"
-                                onClick={() => {}}
-                            >
-                                Ok, we can go next
-                            </button>
-                        ) : null}
                     </div>
                 </div>
             </div>
