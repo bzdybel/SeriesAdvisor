@@ -15,7 +15,7 @@ export const WelcomeSection = ({
                         steps={[
                             `Welcome on ${pageTitle} site  🤝`,
                             1000,
-                            `Before we find movie for you let's choose couple of your favourite movies 📽`,
+                            `Before we find movie for you let's choose couple of your favourite movies`,
                             10000,
                         ]}
                         loop={1}
@@ -24,7 +24,7 @@ export const WelcomeSection = ({
                 ) : (
                     <div>
                         Before we find movie for you let's choose couple of your
-                        favourite movies 📽
+                        favourite movies
                     </div>
                 )}
             </div>

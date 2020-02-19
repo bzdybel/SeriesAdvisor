@@ -1,5 +1,5 @@
 const API_URL = 'https://api.themoviedb.org/';
-const API_KEY = '';
+const API_KEY = '5208414409036588923403a5490e9c1a';
 
 export const fetchSimilarMovies = async ([selectedMovieId]) => {
     const res = await fetch(

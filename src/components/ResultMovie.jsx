@@ -61,7 +61,12 @@ export const ResultMovie = ({ resultMovie }) => {
             return '-';
         }
     };
-
+    const preapreOverview = overview => {
+        if (overview && overview.length > 300) {
+            return overview.substring(0, 300) + '...';
+        }
+        return overview;
+    };
     useEffect(() => {
         if (resultMovie) {
             fetchMoviesDetailsRequest.run(resultMovie.id);
@@ -129,7 +134,7 @@ export const ResultMovie = ({ resultMovie }) => {
                                 </p>
                             </div>
                             <p className="home-lower-section-movie-container-result-details__overwiew">
-                                {movieDetails.overview}
+                                {preapreOverview(movieDetails.overview)}
                             </p>
                             <div className="div">
                                 <div className="home-lower-section-movie-container-result-additional-info">

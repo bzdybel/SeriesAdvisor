@@ -6,8 +6,11 @@ import { Arrow } from './Arrow.jsx';
 import { ResultMovie } from './ResultMovie';
 import { MainMoviesContainer } from './MainMoviesContainer';
 import { WelcomeSection } from './WelcomeSection';
+import { Navigation } from './Navigation';
 import Tooltip from '@material-ui/core/Tooltip';
-import { IoIosClose } from 'react-icons/io';
+import { IoIosClose, IoIosArrowDropup } from 'react-icons/io';
+import useTimeout from 'use-timeout';
+import { IconContext } from 'react-icons';
 
 const totalPages = data.total_pages;
 
@@ -54,6 +57,7 @@ const Home = () => {
     const [movieToShow, setMovieToShow] = useState(null);
 
     const movieContainerRef = useRef(null);
+    const navigationRef = useRef(null);
 
     const scrollToRef = ref => {
         window.scrollTo(0, ref.current.offsetTop);
@@ -111,6 +115,7 @@ const Home = () => {
         setAllSimilarsMovies(allSimilarsMoviesCopy);
     };
     useEffect(() => {
+        console.log('xd');
         setCurrentPage(currentPage);
         fetchNextMoviesRequest.run(currentPage);
         // document.body.style.overflow = 'hidden';
@@ -121,6 +126,9 @@ const Home = () => {
     return (
         <Fragment>
             <div className="home__wrapper">
+                <div ref={navigationRef}>
+                    <Navigation />
+                </div>
                 <WelcomeSection
                     showButton={showButton}
                     onButtonClick={scrollToRef}
@@ -128,10 +136,18 @@ const Home = () => {
                     hideContent={movieToShow !== null}
                 />
                 <div
+                    style={{
+                        backgroundImage: `url('logo.png')`,
+                        width: '5rem',
+                        height: '5rem',
+                    }}
+                    className="div"
+                ></div>
+                <div
                     className="home-lower-section-wrapper"
                     style={{
                         margin:
-                            selectedMoviesIds.length > 2 ? '70% 0 1% 0' : null,
+                            selectedMoviesIds.length > 2 ? '70% 0 7% 0' : null,
                     }}
                 >
                     <div
@@ -154,6 +170,10 @@ const Home = () => {
                                         onClick={() => {
                                             setMovieToShow(null);
                                             setSelectedMoviesIds([]);
+                                            window.scrollTo(
+                                                0,
+                                                document.body.scrollHeight
+                                            );
                                         }}
                                     />
                                 </div>
@@ -234,6 +254,34 @@ const Home = () => {
                                 </button>
                             ) : null}
                         </div>
+                    </div>
+
+                    <div
+                        className="home-lowe-section-movie-container__arrow-back-wrapper"
+                        // style={{ marginLeft: '5%' }}
+                    >
+                        {' '}
+                        <Tooltip
+                            title="Back to the top"
+                            placement="top-start"
+                            classes="tooltip"
+                            arrow
+                        >
+                            <div className="div">
+                                <IconContext.Provider
+                                    value={{
+                                        className:
+                                            'home-lower-section-movie-container__arrow-icon home-lower-section-wrapper__movies-with-arrows--back-to-top',
+                                    }}
+                                >
+                                    <IoIosArrowDropup
+                                        onClick={() => {
+                                            scrollToRef(navigationRef);
+                                        }}
+                                    />
+                                </IconContext.Provider>
+                            </div>
+                        </Tooltip>
                     </div>
                 </div>
             </div>

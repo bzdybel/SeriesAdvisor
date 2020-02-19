@@ -12,6 +12,8 @@
     "react": "^16.8.6",
     "react-async": "^10.0.0",
     "react-dom": "^16.8.6",
+    "react-hamburger-button": "0.0.1",
+    "react-native-nav": "^2.0.2",
     "react-router-dom": "^5.0.0",
     "react-scripts": "3.0.0",
     "react-typical": "^0.1.3",
