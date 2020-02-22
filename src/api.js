@@ -31,3 +31,13 @@ export const fetchVideo = async ([movieId]) => {
     if (!res.ok) throw new Error(res.statusText);
     return res.json();
 };
+export const fetchProfile = async () => {
+    const token = localStorage.getItem('usertoken');
+    const res = await fetch(`http://localhost:5000/users/profile`, {
+        headers: {
+            authorization: token,
+        },
+    });
+    if (!res.ok) throw new Error(res.statusText);
+    return res.json();
+};

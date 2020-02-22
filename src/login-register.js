@@ -13,9 +13,6 @@ export const register = ([newUser]) => {
             return response;
             console.log('Registered');
         });
-    // .catch(response => {
-    //     return response;
-    // });
 };
 
 export const login = user => {

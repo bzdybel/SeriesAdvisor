@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
 import { IoIosMenu } from 'react-icons/io';
 import { IconContext } from 'react-icons';
-import { set } from 'mongoose';
 import { handleNotification } from './Notifications';
-
+import { useHistory } from 'react-router-dom';
 export const Navigation = props => {
+    const history = useHistory();
     const [isExpanded, setIsExpanded] = useState(false);
     return (
         <div
@@ -63,12 +63,10 @@ export const Navigation = props => {
                 <li
                     style={{ display: isExpanded ? 'none' : 'block' }}
                     className="navigation-list__item"
-                    onClick={() =>
-                        handleNotification(
-                            'This functionality is not implemented yet!',
-                            'danger'
-                        )
-                    }
+                    onClick={() => {
+                        localStorage.clear();
+                        history.push('/');
+                    }}
                 >
                     Log out
                 </li>

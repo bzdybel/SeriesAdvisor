@@ -9,8 +9,8 @@ import { WelcomeSection } from './WelcomeSection';
 import { Navigation } from './Navigation';
 import Tooltip from '@material-ui/core/Tooltip';
 import { IoIosClose, IoIosArrowDropup } from 'react-icons/io';
-import useTimeout from 'use-timeout';
 import { IconContext } from 'react-icons';
+import { useProfile } from '../Authcontext';
 
 const totalPages = data.total_pages;
 
@@ -21,6 +21,8 @@ const movieList = data.results.map(movie => ({
 const initialMovies = movieList.filter((element, index) => index < 15);
 
 const Home = () => {
+    const auth = useProfile();
+
     const [movies, setMovies] = useState(initialMovies);
     const [nextMovies, setNextMovies] = useState([]);
     const [selectedMoviesIds, setSelectedMoviesIds] = useState([]);
@@ -115,20 +117,23 @@ const Home = () => {
         setAllSimilarsMovies(allSimilarsMoviesCopy);
     };
     useEffect(() => {
-        console.log('xd');
         setCurrentPage(currentPage);
         fetchNextMoviesRequest.run(currentPage);
-        // document.body.style.overflow = 'hidden';
         setTimeout(() => {
             setShowButton(true);
         }, 10000);
     }, []);
+
+    console.log(document.body.scrollHeight);
     return (
         <Fragment>
             <div className="home__wrapper">
-                <div ref={navigationRef}>
-                    <Navigation />
-                </div>
+                {auth && (
+                    <div ref={navigationRef}>
+                        <Navigation />
+                    </div>
+                )}
+
                 <WelcomeSection
                     showButton={showButton}
                     onButtonClick={scrollToRef}
@@ -170,10 +175,6 @@ const Home = () => {
                                         onClick={() => {
                                             setMovieToShow(null);
                                             setSelectedMoviesIds([]);
-                                            window.scrollTo(
-                                                0,
-                                                document.body.scrollHeight
-                                            );
                                         }}
                                     />
                                 </div>

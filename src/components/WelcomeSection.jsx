@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import Typical from 'react-typical';
 const pageTitle = 'Movie Advisor';
 
@@ -7,6 +7,9 @@ export const WelcomeSection = ({
     onButtonClick,
     movieContainerRef,
 }) => {
+    useEffect(() => {
+        document.body.style.overflow = showButton ? 'scroll' : 'hidden';
+    }, [showButton]);
     return (
         <div className="home_wrapper-upper-section">
             <div className="home-wrapper-upper-section__animation">

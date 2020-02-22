@@ -67,25 +67,22 @@ users_router.post('/login', async (req, res) => {
     }
 });
 
-users_router.get('/profile', (req, res) => {
-    var decoded = jwt.verify(
-        req.headers['authorization'],
-        process.env.SECRET_KEY
-    );
+users_router.get('/profile', async (req, res) => {
+    try {
+        const decoded = jwt.verify(
+            req.headers['authorization'],
+            process.env.SECRET_KEY
+        );
 
-    User.findOne({
-        _id: decoded._id,
-    })
-        .then(user => {
-            if (user) {
-                res.json(user);
-            } else {
-                res.send('User does not exist');
-            }
-        })
-        .catch(err => {
-            res.send('error: ' + err);
-        });
+        const result = await User.findOne({ _id: decoded._id });
+        if (result) {
+            res.json(result);
+        } else {
+            res.send('User does not exist');
+        }
+    } catch (e) {
+        res.status(401).send('error: ' + e);
+    }
 });
 
 module.exports = users_router;
