@@ -1,5 +1,6 @@
 import React from 'react';
 import NoAccountInformation from './NoAccountInformation';
+import { login } from '../login-register';
 
 class LoginForm extends React.Component {
     state = {
@@ -19,8 +20,17 @@ class LoginForm extends React.Component {
     };
     handleloginFormSubmit = e => {
         e.preventDefault();
-        console.log(this.state.email);
-        console.log(this.state.password);
+        const { email, password } = this.state;
+
+        const user = {
+            email: email,
+            password: password,
+        };
+        login(user).then(res => {
+            if (res) {
+                this.props.history.push(`/home`);
+            }
+        });
     };
     render() {
         return (
@@ -28,7 +38,7 @@ class LoginForm extends React.Component {
                 className="login-register-section__form"
                 onSubmit={this.handleloginFormSubmit}
             >
-                <h1 className="login-register-section__title">Zaloguj się</h1>
+                <h1 className="login-register-section__title">Login</h1>
                 <label
                     htmlFor="email"
                     className="login-register-section__label"
@@ -49,7 +59,7 @@ class LoginForm extends React.Component {
                     htmlFor="password"
                     className="login-register-section__label"
                 >
-                    Hasło
+                    Password
                 </label>
 
                 <input
@@ -64,7 +74,7 @@ class LoginForm extends React.Component {
                     type="submit"
                     className="login-register-section__button"
                 >
-                    Zaloguj się
+                    Login
                 </button>
                 <NoAccountInformation />
             </form>

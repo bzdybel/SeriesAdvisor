@@ -4,11 +4,17 @@ import { Link } from 'react-router-dom';
 const NoAccountInformation = () => (
     <div className="login-register-section__no-account">
         <small className="login-register-section__no-account-description">
-            Nie masz konta w serwisie Series Advisor?
+            Don't have an account in Movie Advisor?
         </small>
 
-        <Link to="register" className="login-register-section__registration-link">
-            Zarejestruj się
+        <Link
+            to="register"
+            className="login-register-section__registration-link"
+        >
+            Register now
+        </Link>
+        <Link to="home" className="login-register-section__registration-link">
+            Continue as quest
         </Link>
     </div>
 );
