@@ -98,4 +98,3 @@ const RegisterForm = props => {
         </form>
     );
 };
-export default RegisterForm;
